@@ -6,6 +6,8 @@
   "dependencies": {
     "@apollo/federation": "latest",
     "apollo-server": "latest",
+    "fastify": "latest",
+    "fastify-gql": "github:frikille/fastify-gql#support-federation-protocol",
     "graphql": "latest"
   }
 }
