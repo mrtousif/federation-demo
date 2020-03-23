@@ -1,6 +1,6 @@
 ## Apollo Federation Demo
 
-This repository is a demo of using Apollo Federation to build a single schema on top of multiple services. The microservices are located under the [`./services`](./services/) folder and the gateway that composes the overall schema is in the [`gateway.js`](./gateway.js) file.
+This repository is a demo of using Apollo Federation with [Fastify-GQL](https://github.com/mcollina/fastify-gql) to build a single schema on top of multiple services. The microservices are located under the [`./services`](./services/) folder and the gateway that composes the overall schema is in the [`gateway.js`](./gateway.js) file.
 
 ### Installation
 
