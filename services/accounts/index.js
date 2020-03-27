@@ -21,17 +21,40 @@ const resolvers = {
       return users[0];
     }
   },
+  // User: {
+  //   __resolveReference: (object) => {
+  //     console.log('resolving reference', object)
+  //     return users.find(user => user.id === object.id);
+  //   }
+  // }
+};
+
+// const loaders = {
+//   User: {
+//     async __resolveReference (query, { reply }) {
+//       return query.map(({ params }) => users.find(user => user.id === params.id))
+//     }
+//   }
+// }
+
+const loaders = {
   User: {
-    __resolveReference: (object) => {
-      return users.find(user => user.id === object.id);
+    __resolveReference: {
+      async loader (query, { reply }) {
+        return query.map(({ obj }) => users.find(user => user.id === obj.id))
+      },
+      opts: {
+        cache: true
+      }
     }
   }
-};
+}
 
 app.register(GQL, {
   schema: typeDefs,
   resolvers,
   federationMetadata: true,
+  loaders,
   graphiql: true
 })
 
