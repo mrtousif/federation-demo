@@ -3,11 +3,17 @@
   "main": "gateway.js",
   "scripts": {
     "start-gateway": "nodemon gateway.js",
+    "fastify:start-gateway": "nodemon gateway.js",
     "start-service-accounts": "nodemon services/accounts/index.js",
+    "fastify:start-service-accounts": "nodemon services/accounts/index.js",
     "start-service-reviews": "nodemon services/reviews/index.js",
+    "fastify:start-service-reviews": "nodemon services/reviews/index.js",
     "start-service-products": "nodemon services/products/index.js",
+    "fastify:start-service-products": "nodemon services/products/index.js",
     "start-service-inventory": "nodemon services/inventory/index.js",
+    "fastify:start-service-inventory": "nodemon services/inventory/index.js",
     "start-services": "concurrently \"npm:start-service-*\"",
+    "fastify:start-services": "concurrently \"npm:fastify:start-service-*\"",
     "postinstall": "lerna bootstrap"
   },
   "devDependencies": {
@@ -19,7 +25,7 @@
     "@apollo/gateway": "latest",
     "apollo-server": "latest",
     "fastify": "latest",
-    "fastify-gql": "github:frikille/fastify-gql#support-federation-protocol",
+    "fastify-gql": "github:frikille/fastify-gql#graphql-gateway",
     "graphql": "latest"
   }
 }

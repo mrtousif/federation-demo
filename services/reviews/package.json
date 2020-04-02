@@ -7,7 +7,7 @@
     "@apollo/federation": "latest",
     "apollo-server": "latest",
     "fastify": "latest",
-    "fastify-gql": "github:frikille/fastify-gql#support-federation-protocol",
+    "fastify-gql": "github:frikille/fastify-gql#graphql-gateway",
     "graphql": "latest"
   }
 }
