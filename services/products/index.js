@@ -1,13 +1,10 @@
-const Fastify = require('fastify')
-const GQL = require('fastify-gql')
+const { ApolloServer, gql } = require("apollo-server");
+const { buildFederatedSchema } = require("@apollo/federation");
 
-const app = Fastify()
-
-const typeDefs = `
+const typeDefs = gql`
   extend type Query {
     topProducts(first: Int = 5): [Product]
   }
-
   type Product @key(fields: "upc") {
     upc: String!
     name: String
@@ -18,25 +15,29 @@ const typeDefs = `
 
 const resolvers = {
   Product: {
-    __resolveReference: (object) => {
+    __resolveReference(object) {
       return products.find(product => product.upc === object.upc);
     }
   },
   Query: {
-    topProducts: (_, args) => {
+    topProducts(_, args) {
       return products.slice(0, args.first);
     }
   }
 };
 
-app.register(GQL, {
-  schema: typeDefs,
-  resolvers,
-  federationMetadata: true,
-  graphiql: true
-})
+const server = new ApolloServer({
+  schema: buildFederatedSchema([
+    {
+      typeDefs,
+      resolvers
+    }
+  ])
+});
 
-app.listen(4003)
+server.listen({ port: 4003 }).then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
+});
 
 const products = [
   {

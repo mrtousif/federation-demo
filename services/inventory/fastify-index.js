@@ -37,7 +37,7 @@ app.register(GQL, {
   graphiql: true
 })
 
-app.listen(4004)
+app.listen(3004)
 
 const inventory = [
   { upc: "1", inStock: true },

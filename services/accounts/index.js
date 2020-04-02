@@ -1,13 +1,10 @@
-const Fastify = require('fastify')
-const GQL = require('fastify-gql')
+const { ApolloServer, gql } = require("apollo-server");
+const { buildFederatedSchema } = require("@apollo/federation");
 
-const app = Fastify()
-
-const typeDefs = `
+const typeDefs = gql`
   extend type Query {
     me: User
   }
-
   type User @key(fields: "id") {
     id: ID!
     name: String
@@ -17,34 +14,29 @@ const typeDefs = `
 
 const resolvers = {
   Query: {
-    me: () => {
+    me() {
       return users[0];
     }
   },
-};
-
-const loaders = {
   User: {
-    __resolveReference: {
-      async loader (query, { reply }) {
-        return query.map(({ obj }) => users.find(user => user.id === obj.id))
-      },
-      opts: {
-        cache: true
-      }
+    __resolveReference(object) {
+      return users.find(user => user.id === object.id);
     }
   }
-}
+};
 
-app.register(GQL, {
-  schema: typeDefs,
-  resolvers,
-  federationMetadata: true,
-  loaders,
-  graphiql: true
-})
+const server = new ApolloServer({
+  schema: buildFederatedSchema([
+    {
+      typeDefs,
+      resolvers
+    }
+  ])
+});
 
-app.listen(4001)
+server.listen({ port: 4001 }).then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
+});
 
 const users = [
   {

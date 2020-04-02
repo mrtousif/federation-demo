@@ -36,7 +36,7 @@ app.register(GQL, {
   graphiql: true
 })
 
-app.listen(4003)
+app.listen(3003)
 
 const products = [
   {

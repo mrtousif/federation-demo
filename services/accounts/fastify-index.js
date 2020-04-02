@@ -44,7 +44,7 @@ app.register(GQL, {
   graphiql: true
 })
 
-app.listen(4001)
+app.listen(3001)
 
 const users = [
   {

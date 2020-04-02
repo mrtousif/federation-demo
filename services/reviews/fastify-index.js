@@ -56,7 +56,7 @@ app.register(GQL, {
   graphiql: true
 })
 
-app.listen(4002)
+app.listen(3002)
 
 const usernames = [
   { id: "1", username: "@ada" },

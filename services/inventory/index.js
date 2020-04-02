@@ -1,9 +1,7 @@
-const Fastify = require('fastify')
-const GQL = require('fastify-gql')
+const { ApolloServer, gql } = require("apollo-server");
+const { buildFederatedSchema } = require("@apollo/federation");
 
-const app = Fastify()
-
-const typeDefs = `
+const typeDefs = gql`
   extend type Product @key(fields: "upc") {
     upc: String! @external
     weight: Int @external
@@ -15,13 +13,13 @@ const typeDefs = `
 
 const resolvers = {
   Product: {
-    __resolveReference: (object) => {
+    __resolveReference(object) {
       return {
         ...object,
         ...inventory.find(product => product.upc === object.upc)
       };
     },
-    shippingEstimate: (object) => {
+    shippingEstimate(object) {
       // free for expensive items
       if (object.price > 1000) return 0;
       // estimate is based on weight
@@ -30,14 +28,18 @@ const resolvers = {
   }
 };
 
-app.register(GQL, {
-  schema: typeDefs,
-  resolvers,
-  federationMetadata: true,
-  graphiql: true
-})
+const server = new ApolloServer({
+  schema: buildFederatedSchema([
+    {
+      typeDefs,
+      resolvers
+    }
+  ])
+});
 
-app.listen(4004)
+server.listen({ port: 4004 }).then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
+});
 
 const inventory = [
   { upc: "1", inStock: true },
