@@ -1,31 +1,10 @@
 {
   "name": "federation-demo",
   "main": "gateway.js",
-  "scripts": {
-    "start-gateway": "nodemon gateway.js",
-    "start-service-accounts": "nodemon services/accounts/index.js",
-    "start-service-reviews": "nodemon services/reviews/index.js",
-    "start-service-products": "nodemon services/products/index.js",
-    "start-service-inventory": "nodemon services/inventory/index.js",
-    "start-services": "concurrently \"npm:start-service-*\"",
-    "fastify:start-gateway": "nodemon fastify-gateway.js",
-    "fastify:start-service-accounts": "nodemon services/accounts/fastify-index.js",
-    "fastify:start-service-reviews": "nodemon services/reviews/fastify-index.js",
-    "fastify:start-service-products": "nodemon services/products/fastify-index.js",
-    "fastify:start-service-inventory": "nodemon services/inventory/fastify-index.js",
-    "fastify:start-services": "concurrently \"npm:fastify:start-service-*\"",
-    "postinstall": "lerna bootstrap"
-  },
+  "scripts": {},
   "devDependencies": {
-    "lerna": "latest",
-    "nodemon": "latest",
-    "concurrently": "latest"
+    "autocannon": "^4.6.0",
+    "autocannon-compare": "0.4.0"
   },
-  "dependencies": {
-    "@apollo/gateway": "^0.13.2",
-    "apollo-server": "^2.11.0",
-    "fastify": "^2.13.0",
-    "fastify-gql": "github:frikille/fastify-gql#graphql-gateway",
-    "graphql": "^14.6.0"
-  }
+  "dependencies": {}
 }
