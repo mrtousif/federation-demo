@@ -88,7 +88,7 @@ query mainQuery {
 `
 
 const baseOpts = {
-  connections: 10,
+  connections: 5,
   pipelining: 1,
   duration: 5,
   headers: {
@@ -107,7 +107,7 @@ async function runBenchmarks() {
     
   })
 
-  console.log(fastifyResults)
+  // console.log(fastifyResults)
   
   const apolloResults = await autocannon({
     url: 'http://localhost:4000/graphql',
@@ -115,7 +115,7 @@ async function runBenchmarks() {
     
   })
 
-  console.log(apolloResults)
+  // console.log(apolloResults)
 
   console.log(compare(fastifyResults, apolloResults))
 
