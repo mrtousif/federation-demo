@@ -10,21 +10,15 @@ To learn more about Apollo Federation, check out the [docs](https://www.apollogr
 
 ## Installation
 
-To run this demo locally, pull down the repository then run the following commands:
-
-```sh
-npm install
-```
+To run this demo locally, pull down the repository then run `npm install` in the root and in the `apollo` and `fastify` folders.
 
 This will install all of the dependencies for the gateway and each underlying service.
 
-## Apollo Federation Demo
+## Running the demo
 
-The microservices are located under the [`./services`](./services/) folder `index.js` files and the gateway that composes the overall schema is in the [`gateway.js`](./gateway.js) file.
+### Apollo 
 
-To see the query plan when running queries against the gateway, click on the `Query Plan` tab in the bottom right hand corner of [GraphQL Playground](http://localhost:4000)
-
-### Running the demo
+For running the demo for Apollo, first go the `apollo` folder and run the following commands
 
 ```sh
 npm run start-services
@@ -40,11 +34,9 @@ npm run start-gateway
 
 This will start up the gateway and serve it at http://localhost:4000
 
-## Fastify Demo
+### Fastify
 
-The microservices are located under the [`./services`](./services/) folder `fastify-index.js` files and the gateway that composes the overall schema is in the [`fastify-gateway.js`](./fastify-gateway.js) file.
-
-### Running the demo
+For running the demo for Fastify, first go the `fastify` folder and run the following commands
 
 ```sh
 npm run fastify:start-services
@@ -59,3 +51,13 @@ npm run fastify:start-gateway
 ```
 
 This will start up the gateway and serve it at http://localhost:3000/graphiql
+
+## Benchmark
+
+For running the benchmark, first run both demo apps and then run the following command in the root:
+
+```sh
+node bench.js
+```
+
+It will run the benchmark for 5 seconds for each demo. It wil print the results to the console.
