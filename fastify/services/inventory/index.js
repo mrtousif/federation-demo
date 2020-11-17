@@ -1,10 +1,10 @@
-const Fastify = require('fastify')
-const GQL = require('fastify-gql')
-const { inventory } = require('../../../data/inventory')
+const Fastify = require("fastify");
+const mercurius = require("mercurius");
+const { inventory } = require("../../../data/inventory");
 
-const app = Fastify()
+const app = Fastify();
 
-const typeDefs = `
+const schema = `
   extend type Product @key(fields: "upc") {
     upc: String! @external
     weight: Int @external
@@ -19,7 +19,7 @@ const resolvers = {
     __resolveReference: (object) => {
       return {
         ...object,
-        ...inventory.find(product => product.upc === object.upc)
+        ...inventory.find((product) => product.upc === object.upc),
       };
     },
     shippingEstimate: (object) => {
@@ -27,16 +27,15 @@ const resolvers = {
       if (object.price > 1000) return 0;
       // estimate is based on weight
       return object.weight * 0.5;
-    }
-  }
+    },
+  },
 };
 
-app.register(GQL, {
-  schema: typeDefs,
+app.register(mercurius, {
+  schema,
   resolvers,
   federationMetadata: true,
   graphiql: true,
-  jit: 1
-})
+});
 
-app.listen(3004)
+app.listen(3004);

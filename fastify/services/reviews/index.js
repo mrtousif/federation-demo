@@ -1,8 +1,8 @@
-const Fastify = require('fastify')
-const GQL = require('fastify-gql')
-const { usernames, reviews } = require('../../../data/reviews')
+const Fastify = require("fastify");
+const mercurius = require("mercurius");
+const { usernames, reviews } = require("../../../data/reviews");
 
-const app = Fastify()
+const app = Fastify();
 
 const typeDefs = `
   type Review @key(fields: "id") {
@@ -29,34 +29,32 @@ const resolvers = {
   Review: {
     author: (review) => {
       return { __typename: "User", id: review.authorID };
-    }
+    },
   },
   User: {
     reviews: (user) => {
-      return reviews.filter(review => review.authorID === user.id);
+      return reviews.filter((review) => review.authorID === user.id);
     },
     numberOfReviews: (user) => {
-      return reviews.filter(review => review.authorID === user.id).length;
+      return reviews.filter((review) => review.authorID === user.id).length;
     },
     username: (user) => {
-      const found = usernames.find(username => username.id === user.id);
+      const found = usernames.find((username) => username.id === user.id);
       return found ? found.username : null;
-    }
+    },
   },
   Product: {
     reviews: (product) => {
-      return reviews.filter(review => review.product.upc === product.upc);
-    }
-  }
+      return reviews.filter((review) => review.product.upc === product.upc);
+    },
+  },
 };
 
-app.register(GQL, {
+app.register(mercurius, {
   schema: typeDefs,
   resolvers,
   federationMetadata: true,
   graphiql: true,
-  jit: 1
-})
+});
 
-app.listen(3002)
-
+app.listen(3002);

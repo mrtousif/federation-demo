@@ -1,10 +1,10 @@
-const Fastify = require('fastify')
-const GQL = require('fastify-gql')
-const { users } = require('../../../data/accounts')
+const Fastify = require("fastify");
+const mercurius = require("mercurius");
+const { users } = require("../../../data/accounts");
 
-const app = Fastify()
+const app = Fastify();
 
-const typeDefs = `
+const schema = `
   extend type Query {
     me: User
   }
@@ -21,35 +21,34 @@ const resolvers = {
   Query: {
     me: () => {
       return users[0];
-    }
+    },
   },
   User: {
     friends: (user) => {
-      return users.filter(u => u.id !== user.id)
-    }
-  }
+      return users.filter((u) => u.id !== user.id);
+    },
+  },
 };
 
 const loaders = {
   User: {
     __resolveReference: {
-      async loader (query, { reply }) {
-        return query.map(({ obj }) => users.find(user => user.id === obj.id))
+      async loader(query, { reply }) {
+        return query.map(({ obj }) => users.find((user) => user.id === obj.id));
       },
       opts: {
-        cache: true
-      }
-    }
-  }
-}
+        cache: true,
+      },
+    },
+  },
+};
 
-app.register(GQL, {
-  schema: typeDefs,
+app.register(mercurius, {
+  schema,
   resolvers,
-  federationMetadata: true,
   loaders,
   graphiql: true,
-  jit: 1
-})
+  federationMetadata: true,
+});
 
-app.listen(3001)
+app.listen(3001);

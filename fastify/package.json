@@ -16,7 +16,8 @@
     "concurrently": "latest"
   },
   "dependencies": {
-    "fastify": "^2.13.0",
-    "fastify-gql": "github:frikille/fastify-gql#graphql-gateway"
+    "fastify": "^3.8.0",
+    "graphql": "^15.4.0",
+    "mercurius": "^6.4.0"
   }
 }
